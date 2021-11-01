@@ -63,5 +63,13 @@ describe("app tests", () => {
           expect(body.message).toBe("path not found");
         });
     });
+    test("status: 400, responds with error message bad requet", () => {
+      return request(app)
+        .get("/api/reviews/not_a_path")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
   });
 });
