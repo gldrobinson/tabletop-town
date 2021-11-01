@@ -10,3 +10,26 @@ exports.formatCategoryData = (arrayOfObjects) => {
   });
   return values;
 };
+
+exports.formatReviewData = (arrayOfObjects) => {
+  if (
+    arrayOfObjects.length === 0 ||
+    Object.keys(arrayOfObjects[0]).length === 0
+  ) {
+    return [[]];
+  }
+
+  const values = arrayOfObjects.map((element) => {
+    return [
+      element.title,
+      element.review_body,
+      element.designer,
+      element.review_img_url,
+      element.votes,
+      element.category,
+      element.owner,
+      element.created_at,
+    ];
+  });
+  return values;
+};
