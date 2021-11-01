@@ -55,5 +55,13 @@ describe("app tests", () => {
           });
         });
     });
+    test("status: 404, responds with error message path not found", () => {
+      return request(app)
+        .get("/api/reviews/9999")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.message).toBe("path not found");
+        });
+    });
   });
 });
