@@ -1,6 +1,7 @@
 const {
   formatCategoryData,
   formatReviewData,
+  formatUserData,
 } = require("../utils/formatData.utils");
 
 describe("formatCategoryData", () => {
@@ -58,7 +59,7 @@ describe("formatCategoryData", () => {
     expect(formatCategoryData(input)).toEqual(output);
   });
 });
-describe.only("formatReviewData", () => {
+describe("formatReviewData", () => {
   it("returns an array of arrays", () => {
     expect(formatReviewData([{}])).toEqual([[]]);
   });
@@ -200,5 +201,92 @@ describe.only("formatReviewData", () => {
       ],
     ];
     expect(formatReviewData(input)).toEqual(expected);
+  });
+});
+describe("formatUserData", () => {
+  it("returns an array of arrays", () => {
+    expect(formatUserData([{}])).toEqual([[]]);
+  });
+  it("does not mutate original input array", () => {
+    const input = [
+      {
+        username: "mallionaire",
+        name: "haz",
+        avatar_url:
+          "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+      },
+    ];
+
+    expect(input).toEqual([
+      {
+        username: "mallionaire",
+        name: "haz",
+        avatar_url:
+          "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+      },
+    ]);
+    expect(input[0]).toEqual({
+      username: "mallionaire",
+      name: "haz",
+      avatar_url:
+        "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+    });
+  });
+  it("returns an array with one element containing all user object values when passed an array with one user object", () => {
+    const input = [
+      {
+        username: "mallionaire",
+        name: "haz",
+        avatar_url:
+          "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+      },
+    ];
+    const expected = [
+      [
+        "mallionaire",
+        "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+        "haz",
+      ],
+    ];
+    expect(formatUserData(input)).toEqual(expected);
+  });
+  it("returns an array with multiple arrays containing all user object values when passed an array with multiple user objects", () => {
+    const input = [
+      {
+        username: "mallionaire",
+        name: "haz",
+        avatar_url:
+          "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+      },
+      {
+        username: "philippaclaire9",
+        name: "philippa",
+        avatar_url:
+          "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4",
+      },
+      {
+        username: "bainesface",
+        name: "sarah",
+        avatar_url:
+          "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4",
+      },
+    ];
+    const expected = [
+      [
+        "mallionaire",
+        "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+        "haz",
+      ],
+      [
+        "philippaclaire9",
+        "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4",
+        "philippa",
+      ],
+      [
+        "bainesface",
+        "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4",
+        "sarah",
+      ],
+    ];
   });
 });
