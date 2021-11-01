@@ -2,6 +2,7 @@ const {
   formatCategoryData,
   formatReviewData,
   formatUserData,
+  formatCommentData,
 } = require("../utils/formatData.utils");
 
 describe("formatCategoryData", () => {
@@ -288,5 +289,96 @@ describe("formatUserData", () => {
         "sarah",
       ],
     ];
+  });
+});
+describe("formatCommentData", () => {
+  it("returns an array of arrays", () => {
+    expect(formatCommentData([{}])).toEqual([[]]);
+  });
+  it("does not mutate original input array", () => {
+    const input = [
+      {
+        body: "I loved this game too!",
+        votes: 16,
+        author: "bainesface",
+        review_id: 2,
+        created_at: new Date(1511354613389),
+      },
+    ];
+
+    expect(input).toEqual([
+      {
+        body: "I loved this game too!",
+        votes: 16,
+        author: "bainesface",
+        review_id: 2,
+        created_at: new Date(1511354613389),
+      },
+    ]);
+    expect(input[0]).toEqual({
+      body: "I loved this game too!",
+      votes: 16,
+      author: "bainesface",
+      review_id: 2,
+      created_at: new Date(1511354613389),
+    });
+  });
+  it("returns an array with one element containing all comment object values when passed an array with one comment object", () => {
+    const input = [
+      {
+        body: "I loved this game too!",
+        votes: 16,
+        author: "bainesface",
+        review_id: 2,
+        created_at: new Date(1511354613389),
+      },
+    ];
+    const expected = [
+      ["bainesface", 2, 16, new Date(1511354613389), "I loved this game too!"],
+    ];
+    expect(formatCommentData(input)).toEqual(expected);
+  });
+  it("returns an array with multiple elements containing all comment object values when passed an array with multiple comment objects", () => {
+    const input = [
+      {
+        body: "I loved this game too!",
+        votes: 16,
+        author: "bainesface",
+        review_id: 2,
+        created_at: new Date(1511354613389),
+      },
+      {
+        body: "My dog loved this game too!",
+        votes: 13,
+        author: "mallionaire",
+        review_id: 3,
+        created_at: new Date(1610964545410),
+      },
+      {
+        body: "I didn't know dogs could play games",
+        votes: 10,
+        author: "philippaclaire9",
+        review_id: 3,
+        created_at: new Date(1610964588110),
+      },
+    ];
+    const expected = [
+      ["bainesface", 2, 16, new Date(1511354613389), "I loved this game too!"],
+      [
+        "mallionaire",
+        3,
+        13,
+        new Date(1610964545410),
+        "My dog loved this game too!",
+      ],
+      [
+        "philippaclaire9",
+        3,
+        10,
+        new Date(1610964588110),
+        "I didn't know dogs could play games",
+      ],
+    ];
+    expect(formatCommentData(input)).toEqual(expected);
   });
 });
