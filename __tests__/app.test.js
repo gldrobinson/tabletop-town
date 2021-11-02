@@ -72,4 +72,84 @@ describe("app tests", () => {
         });
     });
   });
+  describe("POST /api/reviews/:review_id", () => {
+    test("status: 201, responds with the updated review object when vote increases", () => {
+      const input = { inc_votes: 1 };
+      return request(app)
+        .patch("/api/reviews/2")
+        .send(input)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.review).toEqual({
+            owner: "philippaclaire9",
+            title: "Jenga",
+            review_id: 2,
+            review_body: "Fiddly fun for all the family",
+            designer: "Leslie Scott",
+            review_image_url:
+              "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+            category: "dexterity",
+            review_created_at: "2021-01-18T10:01:41.251Z",
+            votes: 6,
+          });
+        });
+    });
+    test("status: 200, responds with the updated review object when vote decreases", () => {
+      const input = { inc_votes: -3 };
+      return request(app)
+        .patch("/api/reviews/2")
+        .send(input)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.review).toEqual({
+            owner: "philippaclaire9",
+            title: "Jenga",
+            review_id: 2,
+            review_body: "Fiddly fun for all the family",
+            designer: "Leslie Scott",
+            review_image_url:
+              "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+            category: "dexterity",
+            review_created_at: "2021-01-18T10:01:41.251Z",
+            votes: 2,
+          });
+        });
+    });
+    test("status: 404, responds with error message path not found when inputted path is out of range", () => {
+      return request(app)
+        .patch("/api/reviews/9999")
+        .send({ inc_votes: 3 })
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.message).toBe("path not found");
+        });
+    });
+    test("status: 400, responds with error message bad request when input path is invalid", () => {
+      return request(app)
+        .patch("/api/reviews/not_a_path")
+        .send({ inc_votes: 3 })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
+    test("status: 400, responds with error message bad request when input body is invalid", () => {
+      return request(app)
+        .patch("/api/reviews/2")
+        .send({ inc_votes: "cat" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
+    test.only("status: 400, responds with error message bad request when there is no inc_votes on body", () => {
+      return request(app)
+        .patch("/api/reviews/2")
+        .send({})
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
+  });
 });

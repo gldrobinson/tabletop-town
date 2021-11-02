@@ -19,3 +19,22 @@ exports.selectReviewById = (review_id) => {
     return rows[0];
   });
 };
+
+exports.updateVotesOnReview = (review_id, inc_votes) => {
+  if (inc_votes === undefined) {
+    return Promise.reject({ status: 400, message: "bad request" });
+  }
+  const query = `
+  UPDATE reviews
+  SET
+  votes = votes + $1
+  WHERE
+  review_id = $2
+  RETURNING *;`;
+  return db.query(query, [inc_votes, review_id]).then(({ rows }) => {
+    if (rows[0] === undefined) {
+      return Promise.reject({ status: 404, message: "path not found" });
+    }
+    return rows[0];
+  });
+};
