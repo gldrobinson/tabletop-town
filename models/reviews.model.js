@@ -41,7 +41,6 @@ exports.updateVotesOnReview = (review_id, inc_votes) => {
 };
 
 exports.selectReviews = (sort_by) => {
-  console.log(sort_by);
   const queryValues = [];
   let queryStr = `SELECT reviews.*, COUNT (comment_id) AS comments_count
     FROM reviews

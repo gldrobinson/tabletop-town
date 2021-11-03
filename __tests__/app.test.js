@@ -175,13 +175,22 @@ describe("app tests", () => {
           });
         });
     });
-    test.only("status: 200, responds with an array of review objects that has a sort_by query for title", () => {
+    test("status: 200, responds with an array of review objects that has a sort_by query for title", () => {
       return request(app)
         .get("/api/reviews?sort_by=title")
         .expect(200)
         .then(({ body }) => {
           expect(body.reviews).toHaveLength(13);
           expect(body.reviews).toBeSorted("title");
+        });
+    });
+    test("status: 200, responds with an array of review objects that has a sort_by query for review_id", () => {
+      return request(app)
+        .get("/api/reviews?sort_by=review_id")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toHaveLength(13);
+          expect(body.reviews).toBeSorted("review_id");
         });
     });
   });
