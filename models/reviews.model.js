@@ -30,11 +30,25 @@ exports.updateVotesOnReview = (review_id, inc_votes) => {
   votes = votes + $1
   WHERE
   review_id = $2
-  RETURNING *;`;
+  RETURNING *;
+  `;
   return db.query(query, [inc_votes, review_id]).then(({ rows }) => {
     if (rows[0] === undefined) {
       return Promise.reject({ status: 404, message: "path not found" });
     }
     return rows[0];
+  });
+};
+
+exports.selectReviews = () => {
+  const query = `
+    SELECT reviews.*, COUNT (comment_id) AS comments_count
+    FROM reviews
+    LEFT JOIN comments
+    ON reviews.review_id = comments.review_id
+    GROUP BY reviews.review_id;
+  `;
+  return db.query(query).then(({ rows }) => {
+    return rows;
   });
 };

@@ -72,7 +72,7 @@ describe("app tests", () => {
         });
     });
   });
-  describe("POST /api/reviews/:review_id", () => {
+  describe("PATCH /api/reviews/:review_id", () => {
     test("status: 201, responds with the updated review object when vote increases", () => {
       const input = { inc_votes: 1 };
       return request(app)
@@ -94,7 +94,7 @@ describe("app tests", () => {
           });
         });
     });
-    test("status: 200, responds with the updated review object when vote decreases", () => {
+    test("status: 201, responds with the updated review object when vote decreases", () => {
       const input = { inc_votes: -3 };
       return request(app)
         .patch("/api/reviews/2")
@@ -142,7 +142,7 @@ describe("app tests", () => {
           expect(body.message).toBe("bad request");
         });
     });
-    test.only("status: 400, responds with error message bad request when there is no inc_votes on body", () => {
+    test("status: 400, responds with error message bad request when there is no inc_votes on body", () => {
       return request(app)
         .patch("/api/reviews/2")
         .send({})
@@ -152,4 +152,46 @@ describe("app tests", () => {
         });
     });
   });
+  describe("GET /api/reviews", () => {
+    test("status: 200, responds with an array of review objects", () => {
+      return request(app)
+        .get("/api/reviews")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toHaveLength(13);
+          body.reviews.forEach((review) => {
+            expect.objectContaining({
+              review_id: expect.any(Number),
+              title: expect.any(String),
+              designer: expect.any(String),
+              owner: expect.any(String),
+              review_img_url: expect.any(String),
+              review_body: expect.any(String),
+              category: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              comment_count: expect.any(String),
+            });
+          });
+        });
+    });
+  });
 });
+// body.categories.forEach((category) => {
+//   expect(category).toEqual(
+//     expect.objectContaining({
+//       slug: expect.any(String),
+//       description: expect.any(String),
+//     })
+//   )
+
+// review_id: expect.any(Number),
+//               title: expect.any(String),
+//               designer: expect.any(String),
+//               owner: expect.any(String),
+//               review_img_url: expect.any(String),
+//               review_body: expect.any(String),
+//               category: expect.any(String),
+//               created_at: expect.any(String),
+//               votes: expect.any(Number),
+//               comment_count: expect.any(Number),
