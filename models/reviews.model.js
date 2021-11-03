@@ -77,10 +77,26 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
 
   queryStr += ` GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`;
 
-  return db.query(queryStr, queryValues).then(({ rows }) => {
-    if (rows.length === 0) {
-      return Promise.reject({ status: 404, message: "path not found" });
-    }
-    return rows;
-  });
+  return db
+    .query(queryStr, queryValues)
+    .then((result) => {
+      if (result.rows.length > 0) {
+        return result;
+      }
+      // results.rows = [], check category exists
+      const query = `SELECT * FROM categories WHERE slug = $1;`;
+
+      return db.query(query, [category]);
+    })
+    .then(({ rows }) => {
+      if (rows.length === 0) {
+        // category.rows = [] - category does not exist
+        return Promise.reject({ status: 404, message: "path not found" });
+      } else if (rows[0].hasOwnProperty("slug")) {
+        // category comes back, then no reviews for category
+        return [];
+      } else {
+        return rows;
+      }
+    });
 };

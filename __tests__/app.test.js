@@ -254,5 +254,13 @@ describe("app tests", () => {
           expect(body.message).toBe("path not found");
         });
     });
+    test("status: 200, responds with an empty array when passed a category query children's games that exists but doesn't have any reviews associated with it", () => {
+      return request(app)
+        .get("/api/reviews?category=children's games")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toEqual([]);
+        });
+    });
   });
 });
