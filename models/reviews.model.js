@@ -40,15 +40,24 @@ exports.updateVotesOnReview = (review_id, inc_votes) => {
   });
 };
 
-exports.selectReviews = () => {
-  const query = `
-    SELECT reviews.*, COUNT (comment_id) AS comments_count
+exports.selectReviews = (sort_by) => {
+  console.log(sort_by);
+  const queryValues = [];
+  let queryStr = `SELECT reviews.*, COUNT (comment_id) AS comments_count
     FROM reviews
     LEFT JOIN comments
-    ON reviews.review_id = comments.review_id
-    GROUP BY reviews.review_id;
-  `;
-  return db.query(query).then(({ rows }) => {
-    return rows;
-  });
+    ON reviews.review_id = comments.review_id`;
+
+  queryStr += ` GROUP BY reviews.review_id`;
+
+  if (sort_by !== undefined) {
+    queryValues.push(sort_by);
+    queryStr += ` ORDER BY ${sort_by} ASC;`;
+  }
+  return db
+    .query(queryStr)
+    .then(({ rows }) => {
+      return rows;
+    })
+    .catch(console.log);
 };
