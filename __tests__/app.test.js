@@ -193,5 +193,22 @@ describe("app tests", () => {
           expect(body.reviews).toBeSorted("review_id");
         });
     });
+    test("status: 200, responds with an array of review objects that has a sort_by query for review_created_at", () => {
+      return request(app)
+        .get("/api/reviews?sort_by=review_created_at")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toHaveLength(13);
+          expect(body.reviews).toBeSorted("review_created_at");
+        });
+    });
+    test("status: 400, responds with a bad request when sort_by query is invalid", () => {
+      return request(app)
+        .get("/api/reviews?sort_by=not_valid_query")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
   });
 });

@@ -40,8 +40,25 @@ exports.updateVotesOnReview = (review_id, inc_votes) => {
   });
 };
 
-exports.selectReviews = (sort_by) => {
+exports.selectReviews = (sort_by = "title") => {
   const queryValues = [];
+
+  const validSortBy = [
+    "review_id",
+    "title",
+    "review_body",
+    "designer",
+    "review_image_url",
+    "votes",
+    "category",
+    "owner",
+    "review_created_at",
+  ];
+
+  if (!validSortBy.includes(sort_by)) {
+    return Promise.reject({ status: 400, message: "bad request" });
+  }
+
   let queryStr = `SELECT reviews.*, COUNT (comment_id) AS comments_count
     FROM reviews
     LEFT JOIN comments
@@ -53,10 +70,7 @@ exports.selectReviews = (sort_by) => {
     queryValues.push(sort_by);
     queryStr += ` ORDER BY ${sort_by} ASC;`;
   }
-  return db
-    .query(queryStr)
-    .then(({ rows }) => {
-      return rows;
-    })
-    .catch(console.log);
+  return db.query(queryStr).then(({ rows }) => {
+    return rows;
+  });
 };
