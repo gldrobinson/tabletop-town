@@ -264,7 +264,7 @@ describe("app tests", () => {
     });
   });
   describe("POST /api/reviews/:review_id/comments", () => {
-    test.only("status 201, responds with the posted comment object", () => {
+    test("status 201, responds with the posted comment object", () => {
       const comment = {
         username: "mallionaire",
         body: "great game!",
@@ -282,6 +282,56 @@ describe("app tests", () => {
             votes: 0,
             comment_created_at: expect.any(String),
           });
+        });
+    });
+    test("status: 400, responds with error message bad request when passed an invalid path", () => {
+      const comment = {
+        username: "mallionaire",
+        body: "great game!",
+      };
+      return request(app)
+        .post("/api/reviews/not_valid_path/comments")
+        .expect(400)
+        .send(comment)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
+    test("status: 404, responds with error message not a path when passed a path that doesn't exist", () => {
+      const comment = {
+        username: "mallionaire",
+        body: "great game!",
+      };
+      return request(app)
+        .post("/api/reviews/9999/comments")
+        .expect(404)
+        .send(comment)
+        .then(({ body }) => {
+          expect(body.message).toBe("not a path");
+        });
+    });
+    test("status: 404, responds with error message not a path when passed a username in the body that does not exist", () => {
+      const comment = {
+        username: "not_a_username",
+      };
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .expect(404)
+        .send(comment)
+        .then(({ body }) => {
+          expect(body.message).toBe("not a path");
+        });
+    });
+    test("status: 400, responds with error message bad request when passed a comment object with invalid properties", () => {
+      const comment = {
+        not_a_property: "mallionaire",
+      };
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .expect(400)
+        .send(comment)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
         });
     });
   });

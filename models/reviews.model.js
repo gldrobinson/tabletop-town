@@ -102,6 +102,9 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
 };
 
 exports.addComment = (review_id, username, body) => {
+  if (!username && !body) {
+    return Promise.reject({ status: 400, message: "bad request" });
+  }
   const queryValues = [username, body, review_id];
   const query = `
   INSERT INTO comments
