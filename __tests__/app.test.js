@@ -210,5 +210,33 @@ describe("app tests", () => {
           expect(body.message).toBe("bad request");
         });
     });
+    test("status: 200, responds with an array of review objects that has an order query for ASC", () => {
+      return request(app)
+        .get("/api/reviews?sort_by=review_id&&order=ASC")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toHaveLength(13);
+          expect(body.reviews).toBeSorted("review_id");
+        });
+    });
+    test("status: 200, responds with an array of review objects that has an order query for DESC", () => {
+      return request(app)
+        .get("/api/reviews?sort_by=review_id&&order=DESC")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toHaveLength(13);
+          expect(body.reviews).toBeSortedBy("review_id", {
+            descending: true,
+          });
+        });
+    });
+    test("status: 400, responds with a bad request when order query is invalid", () => {
+      return request(app)
+        .get("/api/reviews?order=not_valid_query")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
   });
 });

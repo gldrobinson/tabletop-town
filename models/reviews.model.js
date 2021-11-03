@@ -40,7 +40,7 @@ exports.updateVotesOnReview = (review_id, inc_votes) => {
   });
 };
 
-exports.selectReviews = (sort_by = "title") => {
+exports.selectReviews = (sort_by = "title", order = "ASC") => {
   const queryValues = [];
 
   const validSortBy = [
@@ -55,7 +55,13 @@ exports.selectReviews = (sort_by = "title") => {
     "review_created_at",
   ];
 
+  const validOrder = ["ASC", "DESC"];
+
   if (!validSortBy.includes(sort_by)) {
+    return Promise.reject({ status: 400, message: "bad request" });
+  }
+
+  if (!validOrder.includes(order)) {
     return Promise.reject({ status: 400, message: "bad request" });
   }
 
@@ -68,7 +74,7 @@ exports.selectReviews = (sort_by = "title") => {
 
   if (sort_by !== undefined) {
     queryValues.push(sort_by);
-    queryStr += ` ORDER BY ${sort_by} ASC;`;
+    queryStr += ` ORDER BY ${sort_by} ${order};`;
   }
   return db.query(queryStr).then(({ rows }) => {
     return rows;
