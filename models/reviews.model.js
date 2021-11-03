@@ -100,3 +100,15 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
       }
     });
 };
+
+exports.addComment = (review_id, username, body) => {
+  const queryValues = [username, body, review_id];
+  const query = `
+  INSERT INTO comments
+  (author, comment_body, review_id)
+  VALUES
+  ($1, $2, $3)
+  RETURNING *;
+  `;
+  return db.query(query, queryValues).then(({ rows }) => rows[0]);
+};

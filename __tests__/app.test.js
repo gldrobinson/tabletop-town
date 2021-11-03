@@ -263,4 +263,26 @@ describe("app tests", () => {
         });
     });
   });
+  describe("POST /api/reviews/:review_id/comments", () => {
+    test.only("status 201, responds with the posted comment object", () => {
+      const comment = {
+        username: "mallionaire",
+        body: "great game!",
+      };
+      return request(app)
+        .post("/api/reviews/3/comments")
+        .expect(201)
+        .send(comment)
+        .then(({ body }) => {
+          expect(body.comment).toEqual({
+            author: expect.any(String),
+            comment_body: expect.any(String),
+            review_id: 3,
+            comment_id: expect.any(Number),
+            votes: 0,
+            comment_created_at: expect.any(String),
+          });
+        });
+    });
+  });
 });
