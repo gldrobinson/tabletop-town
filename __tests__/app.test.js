@@ -238,5 +238,13 @@ describe("app tests", () => {
           expect(body.message).toBe("bad request");
         });
     });
+    test("status: 200, responds with an array of review objects that has been filtered when passed a category query social deduction", () => {
+      return request(app)
+        .get("/api/reviews?category=social deduction")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toHaveLength(11);
+        });
+    });
   });
 });

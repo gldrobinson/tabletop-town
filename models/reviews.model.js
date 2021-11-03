@@ -40,7 +40,7 @@ exports.updateVotesOnReview = (review_id, inc_votes) => {
   });
 };
 
-exports.selectReviews = (sort_by = "title", order = "ASC") => {
+exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
   const queryValues = [];
 
   const validSortBy = [
@@ -70,13 +70,14 @@ exports.selectReviews = (sort_by = "title", order = "ASC") => {
     LEFT JOIN comments
     ON reviews.review_id = comments.review_id`;
 
-  queryStr += ` GROUP BY reviews.review_id`;
-
-  if (sort_by !== undefined) {
-    queryValues.push(sort_by);
-    queryStr += ` ORDER BY ${sort_by} ${order};`;
+  if (category !== undefined) {
+    queryValues.push(category);
+    queryStr += ` WHERE category = $1`;
   }
-  return db.query(queryStr).then(({ rows }) => {
+
+  queryStr += ` GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`;
+
+  return db.query(queryStr, queryValues).then(({ rows }) => {
     return rows;
   });
 };
