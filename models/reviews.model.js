@@ -78,6 +78,9 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
   queryStr += ` GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`;
 
   return db.query(queryStr, queryValues).then(({ rows }) => {
+    if (rows.length === 0) {
+      return Promise.reject({ status: 404, message: "path not found" });
+    }
     return rows;
   });
 };

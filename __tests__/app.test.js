@@ -246,5 +246,13 @@ describe("app tests", () => {
           expect(body.reviews).toHaveLength(11);
         });
     });
+    test("status: 404, responds with a path not found when category query is out of bounds", () => {
+      return request(app)
+        .get("/api/reviews?category=cats")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.message).toBe("path not found");
+        });
+    });
   });
 });
