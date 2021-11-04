@@ -376,5 +376,13 @@ describe("app tests", () => {
           });
         });
     });
+    test("status: 200, responds with an empty array of comments when the given review_id does not have any comments", () => {
+      return request(app)
+        .get("/api/reviews/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comments).toEqual([]);
+        });
+    });
   });
 });
