@@ -392,5 +392,13 @@ describe("app tests", () => {
           expect(body.message).toBe("path not found");
         });
     });
+    test("status 404, responds with error message bad request when passed a review_id that is invalid", () => {
+      return request(app)
+        .get("/api/reviews/not_valid_path/comments")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
   });
 });
