@@ -18,7 +18,7 @@ describe("app tests", () => {
   });
   describe("GET /api", () => {
     test("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
-      const availableEndPoints = `GET /api /nGET /api/categories /nGET /api/reviews/:review_id /nPATCH /api/reviews/:review_id /nGET /api/reviews /nGET /api/reviews/:review_id/comments /nPOST /api/reviews/:review_id/comments /nDELETE /api/comments/:comment_id`;
+      const availableEndPoints = `GET /api \nGET /api/categories \nGET /api/reviews/:review_id \nPATCH /api/reviews/:review_id \nGET /api/reviews \nGET /api/reviews/:review_id/comments \nPOST /api/reviews/:review_id/comments \nDELETE /api/comments/:comment_id`;
       return request(app)
         .get("/api")
         .expect(200)
