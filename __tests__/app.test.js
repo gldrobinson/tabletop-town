@@ -405,5 +405,13 @@ describe("app tests", () => {
     test("status 204 on successful deletion of comment with no content in response", () => {
       return request(app).delete("/api/comments/1").expect(204);
     });
+    test("status 404, responds with error message path not found when comment_id is out of bounds", () => {
+      return request(app)
+        .delete("/api/comments/1111")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.message).toBe("path not found");
+        });
+    });
   });
 });
