@@ -8,6 +8,14 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe("app tests", () => {
+  test("status 200 for endpoint /api which responds with a welcome message", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.message).toBe("Welcome to tabletop-town");
+      });
+  });
   test("status: 404 responds with error message", () => {
     return request(app)
       .get("/api/not_a_path")
