@@ -8,14 +8,6 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe("app tests", () => {
-  test("status 200 for endpoint /api which responds with a welcome message", () => {
-    return request(app)
-      .get("/api")
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.message).toBe("Welcome to tabletop-town");
-      });
-  });
   test("status: 404 responds with error message", () => {
     return request(app)
       .get("/api/not_a_path")
@@ -23,6 +15,17 @@ describe("app tests", () => {
       .then(({ body }) => {
         expect(body.message).toBe("path not found");
       });
+  });
+  describe("GET /api", () => {
+    test("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
+      const availableEndPoints = `GET /api /nGET /api/categories /nGET /api/reviews/:review_id /nPATCH /api/reviews/:review_id /nGET /api/reviews /nGET /api/reviews/:review_id/comments /nPOST /api/reviews/:review_id/comments /nDELETE /api/comments/:comment_id`;
+      return request(app)
+        .get("/api")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.message).toBe(availableEndPoints);
+        });
+    });
   });
   describe("GET /api/categories", () => {
     test("status: 200, responds with an array of category objects", () => {
