@@ -359,6 +359,22 @@ describe("app tests", () => {
     });
   });
   describe("GET /api/reviews/:review_id/comments", () => {
-    test("", () => {});
+    test("status: 200, responds with an array of comments for the given review_id", () => {
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comments).toHaveLength(3);
+          body.comments.forEach((comment) => {
+            expect.objectContaining({
+              body: expect.any(String),
+              votes: expect.any(Number),
+              author: expect.any(String),
+              review_id: 2,
+              comment_created_at: expect.any(String),
+            });
+          });
+        });
+    });
   });
 });

@@ -124,3 +124,11 @@ exports.addComment = (review_id, bodyParams) => {
   `;
   return db.query(query, queryValues).then(({ rows }) => rows[0]);
 };
+
+exports.selectComments = (review_id) => {
+  const queryValues = [review_id];
+  const query = `
+  SELECT * FROM comments
+  WHERE review_id = $1`;
+  return db.query(query, queryValues).then(({ rows }) => rows);
+};
