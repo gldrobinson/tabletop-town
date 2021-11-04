@@ -9,13 +9,23 @@ const {
 
 const seed = async (data) => {
   const { categoryData, commentData, reviewData, userData } = data;
-  // 1. Drop tables if exists... comments, reviews, user, category
+  // 1. Drop tables if exists -->comments, reviews, user, category
+  await dropTables();
+
+  // 2. create tables --> category, user, reviews, comments
+  await createTables();
+
+  // 3. Insert data into tables --> category, user, reviews, comments
+  await insertDataIntoTables(categoryData, userData, reviewData, commentData);
+};
+
+const dropTables = async () => {
   await db.query(`DROP TABLE IF EXISTS comments;`);
   await db.query(`DROP TABLE IF EXISTS reviews;`);
   await db.query(`DROP TABLE IF EXISTS users;`);
   await db.query(`DROP TABLE IF EXISTS categories;`);
-
-  // 2. create tables ... category, user, reviews, comments
+};
+const createTables = async () => {
   // categories table
   let query = `CREATE TABLE categories (
     slug VARCHAR(40) PRIMARY KEY NOT NULL,
@@ -54,9 +64,13 @@ const seed = async (data) => {
     comment_body TEXT NOT NULL
   );`;
   await db.query(query);
-
-  // 3. insert data into tables
-  // categories table
+};
+const insertDataIntoTables = async (
+  categoryData,
+  userData,
+  reviewData,
+  commentData
+) => {
   query = `INSERT INTO categories 
   (slug, description)
   VALUES
@@ -84,5 +98,4 @@ const seed = async (data) => {
   %L;`;
   await db.query(format(query, formatCommentData(commentData)));
 };
-
 module.exports = seed;
