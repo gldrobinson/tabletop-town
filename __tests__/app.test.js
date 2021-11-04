@@ -413,5 +413,13 @@ describe("app tests", () => {
           expect(body.message).toBe("path not found");
         });
     });
+    test("status 400, responds with error message bad request when comment_id is invalid", () => {
+      return request(app)
+        .delete("/api/comments/not_valid")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
   });
 });
