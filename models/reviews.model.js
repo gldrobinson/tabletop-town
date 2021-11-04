@@ -130,5 +130,26 @@ exports.selectComments = (review_id) => {
   const query = `
   SELECT * FROM comments
   WHERE review_id = $1`;
-  return db.query(query, queryValues).then(({ rows }) => rows);
+
+  return db
+    .query(query, queryValues)
+    .then((result) => {
+      // check to see if review_id exists when rows = []
+      if (result.rows.length === 0) {
+        return db.query(
+          `SELECT * FROM reviews WHERE review_id = $1;`,
+          queryValues
+        );
+      }
+      return result;
+    })
+    .then(({ rows }) => {
+      if (rows.length === 0) {
+        return Promise.reject({ status: 404, message: "path not found" });
+      } else if (rows[0].hasOwnProperty("review_body")) {
+        return [];
+      } else {
+        return rows;
+      }
+    });
 };

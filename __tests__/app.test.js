@@ -384,5 +384,13 @@ describe("app tests", () => {
           expect(body.comments).toEqual([]);
         });
     });
+    test("status 404, responds with error message path not found when passed a review_id that is out of bounds", () => {
+      return request(app)
+        .get("/api/reviews/9999/comments")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.message).toBe("path not found");
+        });
+    });
   });
 });
