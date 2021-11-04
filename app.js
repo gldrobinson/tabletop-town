@@ -10,6 +10,10 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/api", (req, res) => {
+  res.status(200).send(message: "Welcome to tabletop-town");
+})
+
 app.use("/api", apiRouter);
 
 app.use(handleCustomerErrs);
