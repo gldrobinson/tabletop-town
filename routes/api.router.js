@@ -3,12 +3,12 @@ const { welcomeMessage } = require("../controllers/api.controller");
 const { categoryRouter } = require("./categories.router.js");
 const { reviewRouter } = require("./reviews.router.js");
 const { commentRouter } = require("./comments.router.js");
+const { userRouter } = require("./users.router.js");
 
 apiRouter.route("/").get(welcomeMessage);
 apiRouter.use("/categories", categoryRouter);
-
 apiRouter.use("/reviews", reviewRouter);
-
 apiRouter.use("/comments", commentRouter);
+apiRouter.use("/users", userRouter);
 
 module.exports = { apiRouter };
