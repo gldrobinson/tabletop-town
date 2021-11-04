@@ -350,4 +350,7 @@ describe("app tests", () => {
         });
     });
   });
+  describe("GET /api/reviews/:review_id/comments", () => {
+    test("", () => {});
+  });
 });
