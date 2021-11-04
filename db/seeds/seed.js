@@ -19,7 +19,7 @@ const seed = async (data) => {
   // categories table
   let query = `CREATE TABLE categories (
     slug VARCHAR(40) PRIMARY KEY NOT NULL,
-    description TEXT
+    description TEXT NOT NULL
   );`;
   await db.query(query);
 
@@ -27,7 +27,7 @@ const seed = async (data) => {
   query = `CREATE TABLE users (
     username VARCHAR(40) PRIMARY KEY NOT NULL,
     avatar_url TEXT,
-    name VARCHAR(80)
+    name VARCHAR(80) NOT NULL
   );`;
   await db.query(query);
 
@@ -35,23 +35,23 @@ const seed = async (data) => {
   query = `CREATE TABLE reviews (
     review_id SERIAL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
-    review_body TEXT,
-    designer VARCHAR(100),
+    review_body TEXT NOT NULL,
+    designer VARCHAR(100) NOT NULL,
     review_image_url TEXT DEFAULT 'https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg',
     votes INTEGER DEFAULT 0,
-    category VARCHAR(40) REFERENCES categories(slug),
-    owner VARCHAR(40) REFERENCES users(username),
+    category VARCHAR(40) NOT NULL REFERENCES categories(slug),
+    owner VARCHAR(40) NOT NULL REFERENCES users(username),
     review_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );`;
   await db.query(query);
   // comments table
   query = `CREATE TABLE comments (
     comment_id SERIAL PRIMARY KEY,
-    author VARCHAR(40) REFERENCES users(username) NOT NULL,
-    review_id INTEGER NOT NULL REFERENCES reviews(review_id),
+    author VARCHAR(40) NOT NULL REFERENCES users(username),
+    review_id INTEGER NOT NULL REFERENCES reviews(review_id) ON DELETE CASCADE,
     votes INTEGER DEFAULT 0,
     comment_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    comment_body TEXT
+    comment_body TEXT NOT NULL
   );`;
   await db.query(query);
 
