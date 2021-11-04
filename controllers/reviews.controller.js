@@ -41,9 +41,7 @@ exports.postComment = (req, res, next) => {
     .then((comment) => {
       res.status(201).send({ comment });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 exports.getComments = (req, res, next) => {
   const { review_id } = req.params;

@@ -1,4 +1,5 @@
 exports.welcomeMessage = (req, res, next) => {
+  // extra out to own file
   const endPoints = {
     endPoints: {
       "/api": "GET",
