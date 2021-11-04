@@ -20,10 +20,13 @@ exports.selectReviewById = (review_id) => {
   });
 };
 
-exports.updateVotesOnReview = (review_id, inc_votes) => {
-  if (inc_votes === undefined) {
+exports.updateVotesOnReview = (review_id, bodyParams) => {
+  const bodyKeys = Object.keys(bodyParams);
+
+  if (!bodyKeys.includes("inc_votes") || bodyKeys.length > 1) {
     return Promise.reject({ status: 400, message: "bad request" });
   }
+  const { inc_votes } = bodyParams;
   const query = `
   UPDATE reviews
   SET
