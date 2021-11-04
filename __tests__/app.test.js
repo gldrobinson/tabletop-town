@@ -17,13 +17,17 @@ describe("app tests", () => {
       });
   });
   describe("GET /api", () => {
-    test("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
-      const availableEndPoints = `GET /api \nGET /api/categories \nGET /api/reviews/:review_id \nPATCH /api/reviews/:review_id \nGET /api/reviews \nGET /api/reviews/:review_id/comments \nPOST /api/reviews/:review_id/comments \nDELETE /api/comments/:comment_id`;
+    test.only("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
+      // const availableEndPoints = `GET /api \nGET /api/categories \nGET /api/reviews/:review_id \nPATCH /api/reviews/:review_id \nGET /api/reviews \nGET /api/reviews/:review_id/comments \nPOST /api/reviews/:review_id/comments \nDELETE /api/comments/:comment_id`;
+      const endPoints = {
+        "/api": "GET",
+        "/api/categories": "GET",
+      };
       return request(app)
         .get("/api")
         .expect(200)
         .then(({ body }) => {
-          expect(body.message).toBe(availableEndPoints);
+          expect(body).toEqual(endPoints);
         });
     });
   });
