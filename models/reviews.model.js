@@ -101,10 +101,19 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
     });
 };
 
-exports.addComment = (review_id, username, body) => {
-  if (!username && !body) {
+exports.addComment = (review_id, bodyParams) => {
+  const bodyKeys = Object.keys(bodyParams);
+
+  if (
+    !bodyKeys.includes("username") ||
+    !bodyKeys.includes("body") ||
+    bodyKeys.length > 2
+  ) {
     return Promise.reject({ status: 400, message: "bad request" });
   }
+
+  const { username, body } = bodyParams;
+
   const queryValues = [username, body, review_id];
   const query = `
   INSERT INTO comments

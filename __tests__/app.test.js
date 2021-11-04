@@ -313,6 +313,7 @@ describe("app tests", () => {
     test("status: 404, responds with error message not a path when passed a username in the body that does not exist", () => {
       const comment = {
         username: "not_a_username",
+        body: "Hello",
       };
       return request(app)
         .post("/api/reviews/1/comments")
@@ -325,6 +326,20 @@ describe("app tests", () => {
     test("status: 400, responds with error message bad request when passed a comment object with invalid properties", () => {
       const comment = {
         not_a_property: "mallionaire",
+      };
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .expect(400)
+        .send(comment)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
+    test("status: 400, responds with error message bad request when passed an object with more than the required properties", () => {
+      const comment = {
+        username: "mallionaire",
+        body: "hello",
+        extra_property: "ignore",
       };
       return request(app)
         .post("/api/reviews/1/comments")
