@@ -36,7 +36,9 @@ exports.addComment = (review_id, bodyParams) => {
   ($1, $2, $3)
   RETURNING *;
   `;
-  return db.query(query, queryValues).then(({ rows }) => rows[0]);
+  return db.query(query, queryValues).then(({ rows }) => {
+    return rows[0];
+  });
 };
 
 exports.selectComments = (review_id) => {

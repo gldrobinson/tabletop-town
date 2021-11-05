@@ -473,14 +473,14 @@ describe("app tests", () => {
         body: "great game!",
       };
       return request(app)
-        .post("/api/reviews/3/comments")
+        .post("/api/reviews/1/comments")
         .expect(201)
         .send(comment)
         .then(({ body }) => {
           expect(body.comment).toEqual({
             author: expect.any(String),
             body: expect.any(String),
-            review_id: 3,
+            review_id: 1,
             comment_id: expect.any(Number),
             votes: 0,
             created_at: expect.any(String),
