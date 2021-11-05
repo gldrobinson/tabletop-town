@@ -9,13 +9,71 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe("app tests", () => {
-  test("status: 404 responds with error message", () => {
+  test("all endpoints that don't exist: status: 404 responds with error message path not found", () => {
     return request(app)
       .get("/api/not_a_path")
       .expect(404)
       .then(({ body }) => {
         expect(body.message).toBe("path not found");
       });
+  });
+  describe("all invalid methods to endpoints, responds with error message method not allowed", () => {
+    describe("/api", () => {
+      test("POST /api status 405", () => {
+        return request(app)
+          .post("/api")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("PATCH /api status 405", () => {
+        return request(app)
+          .patch("/api")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("DELETE /api status 405", () => {
+        return request(app)
+          .delete("/api")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+    });
+    describe("/api/categories", () => {
+      test("POST - status 405", () => {
+        return request(app)
+          .post("/api/categories")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("PATCH - status 405", () => {
+        return request(app)
+          .patch("/api/categories")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("DELETE - status 405", () => {
+        return request(app)
+          .delete("/api/categories")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+    });
   });
   describe("GET /api", () => {
     test("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
