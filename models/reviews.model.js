@@ -60,11 +60,7 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
 
   const validOrder = ["ASC", "DESC"];
 
-  if (!validSortBy.includes(sort_by)) {
-    return Promise.reject({ status: 400, message: "bad request" });
-  }
-
-  if (!validOrder.includes(order)) {
+  if (!validSortBy.includes(sort_by) || !validOrder.includes(order)) {
     return Promise.reject({ status: 400, message: "bad request" });
   }
 
@@ -80,26 +76,24 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
 
   queryStr += ` GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`;
 
-  return db
-    .query(queryStr, queryValues)
-    .then((result) => {
-      if (result.rows.length > 0) {
-        return result;
-      }
-      // results.rows = [], check category exists
-      const query = `SELECT * FROM categories WHERE slug = $1;`;
+  const categoryQueryStr = `SELECT * FROM categories WHERE slug = $1;`;
 
-      return db.query(query, [category]);
-    })
-    .then(({ rows }) => {
-      if (rows.length === 0) {
-        // category.rows = [] - category does not exist
-        return Promise.reject({ status: 404, message: "path not found" });
-      } else if (rows[0].hasOwnProperty("slug")) {
-        // category comes back, then no reviews for category
-        return [];
-      } else {
-        return rows;
+  const commentPromise = db.query(queryStr, queryValues);
+  const categoryPromise = db.query(categoryQueryStr, [category]);
+
+  return Promise.all([commentPromise, categoryPromise]).then(
+    ([review, category]) => {
+      const reviewRows = review.rows;
+      const categoryRows = category.rows;
+
+      if (reviewRows.length > 0) {
+        return reviewRows;
       }
-    });
+      if (categoryRows.length > 0) {
+        return reviewRows;
+      }
+
+      return Promise.reject({ status: 404, message: "path not found" });
+    }
+  );
 };
