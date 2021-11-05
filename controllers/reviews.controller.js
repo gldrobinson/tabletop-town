@@ -18,7 +18,7 @@ exports.patchReviewById = (req, res, next) => {
   const bodyParams = req.body;
   updateVotesOnReview(review_id, bodyParams)
     .then((review) => {
-      res.status(201).send({ review });
+      res.status(200).send({ review });
     })
     .catch(next);
 };

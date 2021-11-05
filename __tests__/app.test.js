@@ -245,12 +245,12 @@ describe("app tests", () => {
     });
   });
   describe("PATCH /api/reviews/:review_id", () => {
-    test("status: 201, responds with the updated review object when vote increases", () => {
+    test("status: 200, responds with the updated review object when vote increases", () => {
       const input = { inc_votes: 1 };
       return request(app)
         .patch("/api/reviews/2")
         .send(input)
-        .expect(201)
+        .expect(200)
         .then(({ body }) => {
           expect(body.review).toEqual({
             owner: "philippaclaire9",
@@ -266,12 +266,12 @@ describe("app tests", () => {
           });
         });
     });
-    test("status: 201, responds with the updated review object when vote decreases", () => {
+    test("status: 200, responds with the updated review object when vote decreases", () => {
       const input = { inc_votes: -3 };
       return request(app)
         .patch("/api/reviews/2")
         .send(input)
-        .expect(201)
+        .expect(200)
         .then(({ body }) => {
           expect(body.review).toEqual({
             owner: "philippaclaire9",
