@@ -78,10 +78,10 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
 
   const categoryQueryStr = `SELECT * FROM categories WHERE slug = $1;`;
 
-  const commentPromise = db.query(queryStr, queryValues);
+  const reviewPromise = db.query(queryStr, queryValues);
   const categoryPromise = db.query(categoryQueryStr, [category]);
 
-  return Promise.all([commentPromise, categoryPromise]).then(
+  return Promise.all([reviewPromise, categoryPromise]).then(
     ([review, category]) => {
       const reviewRows = review.rows;
       const categoryRows = category.rows;
