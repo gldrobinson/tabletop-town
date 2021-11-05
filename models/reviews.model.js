@@ -43,7 +43,11 @@ exports.updateVotesOnReview = (review_id, bodyParams) => {
   });
 };
 
-exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
+exports.selectReviews = (
+  sort_by = "review_created_at",
+  order = "DESC",
+  category
+) => {
   const queryValues = [];
 
   const validSortBy = [
@@ -87,6 +91,7 @@ exports.selectReviews = (sort_by = "title", order = "ASC", category) => {
       const categoryRows = category.rows;
 
       if (reviewRows.length > 0) {
+        console.log(reviewRows);
         return reviewRows;
       }
       if (categoryRows.length > 0) {

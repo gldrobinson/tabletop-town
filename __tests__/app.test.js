@@ -334,12 +334,13 @@ describe("app tests", () => {
     });
   });
   describe("GET /api/reviews", () => {
-    test("status: 200, responds with an array of review objects", () => {
+    test("status: 200, responds with an array of review objects with default sort_by review_created_at and order dec ", () => {
       return request(app)
         .get("/api/reviews")
         .expect(200)
         .then(({ body }) => {
           expect(body.reviews).toHaveLength(13);
+          expect(body.reviews[0].review_id).toBe(7);
           body.reviews.forEach((review) => {
             expect.objectContaining({
               review_id: expect.any(Number),
@@ -381,6 +382,16 @@ describe("app tests", () => {
         .then(({ body }) => {
           expect(body.reviews).toHaveLength(13);
           expect(body.reviews).toBeSorted("review_created_at");
+        });
+    });
+    test("status: 200, responds with an array of review objects that has a sort_by query for owner", () => {
+      return request(app)
+        .get("/api/reviews?sort_by=owner")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toHaveLength(13);
+          expect(body.reviews[0].owner).toBe("philippaclaire9");
+          expect(body.reviews).toBeSorted("owner");
         });
     });
     test("status: 400, responds with a bad request when sort_by query is invalid", () => {
