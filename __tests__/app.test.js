@@ -149,6 +149,34 @@ describe("app tests", () => {
           });
       });
     });
+    describe("/api.users", () => {
+      test("POST - status 405", () => {
+        return request(app)
+          .post("/api/users")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("PATCH - status 405", () => {
+        return request(app)
+          .patch("/api/users")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("DELETE - status 405", () => {
+        return request(app)
+          .delete("/api/users")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+    });
   });
   describe("GET /api", () => {
     test("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
