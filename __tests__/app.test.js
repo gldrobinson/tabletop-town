@@ -565,7 +565,6 @@ describe("app tests", () => {
               body: expect.any(String),
               votes: expect.any(Number),
               author: expect.any(String),
-              review_id: 2,
               comment_created_at: expect.any(String),
             });
           });

@@ -42,7 +42,7 @@ exports.addComment = (review_id, bodyParams) => {
 exports.selectComments = (review_id) => {
   const queryValues = [review_id];
   const commentsQuery = `
-  SELECT * FROM comments
+  SELECT comment_id, author, votes, created_at, body FROM comments
   WHERE review_id = $1`;
 
   const reviewQuery = `SELECT * FROM reviews WHERE review_id = $1;`;
