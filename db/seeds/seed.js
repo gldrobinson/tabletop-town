@@ -47,11 +47,11 @@ const createTables = async () => {
     title VARCHAR(100) NOT NULL,
     review_body TEXT NOT NULL,
     designer VARCHAR(100) NOT NULL,
-    review_image_url TEXT DEFAULT 'https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg',
+    review_img_url TEXT DEFAULT 'https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg',
     votes INTEGER DEFAULT 0,
     category VARCHAR(40) NOT NULL REFERENCES categories(slug),
     owner VARCHAR(40) NOT NULL REFERENCES users(username),
-    review_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );`;
   await db.query(query);
   // comments table
@@ -60,8 +60,8 @@ const createTables = async () => {
     author VARCHAR(40) NOT NULL REFERENCES users(username),
     review_id INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
     votes INTEGER DEFAULT 0,
-    comment_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    comment_body TEXT NOT NULL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    body TEXT NOT NULL
   );`;
   await db.query(query);
 };
@@ -86,14 +86,14 @@ const insertDataIntoTables = async (
 
   //reviews table
   query = `INSERT INTO reviews
-  (title, review_body, designer, review_image_url, votes, category, owner, review_created_at)
+  (title, review_body, designer, review_img_url, votes, category, owner, created_at)
   VALUES 
   %L;`;
   await db.query(format(query, formatReviewData(reviewData)));
 
   // comments table
   query = `INSERT INTO comments
-  (author, review_id, votes, comment_created_at, comment_body)
+  (author, review_id, votes, created_at, body)
   VALUES 
   %L;`;
   await db.query(format(query, formatCommentData(commentData)));

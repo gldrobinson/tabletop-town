@@ -43,11 +43,7 @@ exports.updateVotesOnReview = (review_id, bodyParams) => {
   });
 };
 
-exports.selectReviews = (
-  sort_by = "review_created_at",
-  order = "desc",
-  category
-) => {
+exports.selectReviews = (sort_by = "created_at", order = "desc", category) => {
   const queryValues = [];
 
   const validSortBy = [
@@ -55,11 +51,11 @@ exports.selectReviews = (
     "title",
     "review_body",
     "designer",
-    "review_image_url",
+    "review_img_url",
     "votes",
     "category",
     "owner",
-    "review_created_at",
+    "created_at",
   ];
 
   const validOrder = ["asc", "desc"];
@@ -91,7 +87,6 @@ exports.selectReviews = (
       const categoryRows = category.rows;
 
       if (reviewRows.length > 0) {
-        // console.log(reviewRows);
         return reviewRows;
       }
       if (categoryRows.length > 0) {

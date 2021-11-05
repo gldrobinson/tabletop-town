@@ -31,7 +31,7 @@ exports.addComment = (review_id, bodyParams) => {
   const queryValues = [username, body, review_id];
   const query = `
   INSERT INTO comments
-  (author, comment_body, review_id)
+  (author, body, review_id)
   VALUES
   ($1, $2, $3)
   RETURNING *;

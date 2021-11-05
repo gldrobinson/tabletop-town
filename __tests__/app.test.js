@@ -218,10 +218,10 @@ describe("app tests", () => {
             review_id: 2,
             review_body: "Fiddly fun for all the family",
             designer: "Leslie Scott",
-            review_image_url:
+            review_img_url:
               "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
             category: "dexterity",
-            review_created_at: "2021-01-18T10:01:41.251Z",
+            created_at: "2021-01-18T10:01:41.251Z",
             votes: 5,
             comments_count: "3",
           });
@@ -258,10 +258,10 @@ describe("app tests", () => {
             review_id: 2,
             review_body: "Fiddly fun for all the family",
             designer: "Leslie Scott",
-            review_image_url:
+            review_img_url:
               "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
             category: "dexterity",
-            review_created_at: "2021-01-18T10:01:41.251Z",
+            created_at: "2021-01-18T10:01:41.251Z",
             votes: 6,
           });
         });
@@ -279,10 +279,10 @@ describe("app tests", () => {
             review_id: 2,
             review_body: "Fiddly fun for all the family",
             designer: "Leslie Scott",
-            review_image_url:
+            review_img_url:
               "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
             category: "dexterity",
-            review_created_at: "2021-01-18T10:01:41.251Z",
+            created_at: "2021-01-18T10:01:41.251Z",
             votes: 2,
           });
         });
@@ -333,7 +333,7 @@ describe("app tests", () => {
         });
     });
   });
-  describe.only("GET /api/reviews", () => {
+  describe("GET /api/reviews", () => {
     test("status: 200, responds with an array of review objects with default sort_by review_created_at and order dec ", () => {
       return request(app)
         .get("/api/reviews")
@@ -375,13 +375,13 @@ describe("app tests", () => {
           expect(body.reviews).toBeSorted("review_id");
         });
     });
-    test("status: 200, responds with an array of review objects that has a sort_by query for review_created_at", () => {
+    test("status: 200, responds with an array of review objects that has a sort_by query for created_at", () => {
       return request(app)
-        .get("/api/reviews?sort_by=review_created_at")
+        .get("/api/reviews?sort_by=created_at")
         .expect(200)
         .then(({ body }) => {
           expect(body.reviews).toHaveLength(13);
-          expect(body.reviews).toBeSorted("review_created_at");
+          expect(body.reviews).toBeSorted("created_at");
         });
     });
     test("status: 200, responds with an array of review objects that has a sort_by query for owner", () => {
@@ -468,11 +468,11 @@ describe("app tests", () => {
         .then(({ body }) => {
           expect(body.comment).toEqual({
             author: expect.any(String),
-            comment_body: expect.any(String),
+            body: expect.any(String),
             review_id: 3,
             comment_id: expect.any(Number),
             votes: 0,
-            comment_created_at: expect.any(String),
+            created_at: expect.any(String),
           });
         });
     });
