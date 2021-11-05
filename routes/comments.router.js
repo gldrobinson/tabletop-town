@@ -4,8 +4,14 @@ const {
   getComments,
   postComment,
 } = require("../controllers/comments.controller.js");
+const {
+  handleMethodNotAllowed,
+} = require("../controllers/errors.controller.js");
 
-commentRouter.delete("/:comment_id", deleteComment);
+commentRouter
+  .route("/:comment_id")
+  .delete(deleteComment)
+  .all(handleMethodNotAllowed);
 
 commentRouter.route("/").get(getComments).post(postComment);
 

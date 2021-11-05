@@ -121,6 +121,34 @@ describe("app tests", () => {
           });
       });
     });
+    describe("/api/comments/:comment_id", () => {
+      test("POST - status 405", () => {
+        return request(app)
+          .post("/api/comments/2")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("PATCH - status 405", () => {
+        return request(app)
+          .patch("/api/comments/2")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("GET - status 405", () => {
+        return request(app)
+          .get("/api/comments/2")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+    });
   });
   describe("GET /api", () => {
     test("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
