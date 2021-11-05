@@ -2,8 +2,6 @@ const {
   selectReviewById,
   updateVotesOnReview,
   selectReviews,
-  addComment,
-  selectComments,
 } = require("../models/reviews.model.js");
 
 exports.getReviewById = (req, res, next) => {
@@ -34,23 +32,23 @@ exports.getReviews = (req, res, next) => {
     .catch(next);
 };
 
-exports.postComment = (req, res, next) => {
-  const { review_id } = req.params;
-  const bodyParams = req.body;
-  addComment(review_id, bodyParams)
-    .then((comment) => {
-      res.status(201).send({ comment });
-    })
-    .catch(next);
-};
-exports.getComments = (req, res, next) => {
-  const { review_id } = req.params;
+// exports.postComment = (req, res, next) => {
+//   const { review_id } = req.params;
+//   const bodyParams = req.body;
+//   addComment(review_id, bodyParams)
+//     .then((comment) => {
+//       res.status(201).send({ comment });
+//     })
+//     .catch(next);
+// };
+// exports.getComments = (req, res, next) => {
+//   const { review_id } = req.params;
 
-  selectComments(review_id)
-    .then((comments) => {
-      res.status(200).send({ comments });
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
+//   selectComments(review_id)
+//     .then((comments) => {
+//       res.status(200).send({ comments });
+//     })
+//     .catch((err) => {
+//       next(err);
+//     });
+// };
