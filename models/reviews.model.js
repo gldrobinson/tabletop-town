@@ -23,6 +23,12 @@ exports.selectReviewById = (review_id) => {
 exports.updateVotesOnReview = (review_id, bodyParams) => {
   const bodyKeys = Object.keys(bodyParams);
 
+  if (bodyKeys.length === 0) {
+    // return unchanged review
+    const query = "SELECT * FROM reviews WHERE review_id = $1";
+    return db.query(query, [review_id]).then(({ rows }) => rows[0]);
+  }
+
   if (!bodyKeys.includes("inc_votes") || bodyKeys.length > 1) {
     return Promise.reject({ status: 400, message: "bad request" });
   }

@@ -287,7 +287,7 @@ describe("app tests", () => {
           });
         });
     });
-    test("status: 404, responds with error message path not found when inputted path is out of range", () => {
+    test("status: 404, responds with error message path not found when path is out of range", () => {
       return request(app)
         .patch("/api/reviews/9999")
         .send({ inc_votes: 3 })
@@ -314,13 +314,24 @@ describe("app tests", () => {
           expect(body.message).toBe("bad request");
         });
     });
-    test("status: 400, responds with error message bad request when there is no inc_votes on body", () => {
+    test("status: 200, responds with unchanged review to user when no body was included", () => {
       return request(app)
         .patch("/api/reviews/2")
         .send({})
-        .expect(400)
+        .expect(200)
         .then(({ body }) => {
-          expect(body.message).toBe("bad request");
+          expect(body.review).toEqual({
+            owner: "philippaclaire9",
+            title: "Jenga",
+            review_id: 2,
+            review_body: "Fiddly fun for all the family",
+            designer: "Leslie Scott",
+            review_img_url:
+              "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+            category: "dexterity",
+            created_at: "2021-01-18T10:01:41.251Z",
+            votes: 5,
+          });
         });
     });
     test("status: 400, responds with error message bad request when there are more than the require properties on the body", () => {
