@@ -1,15 +1,5 @@
-exports.welcomeMessage = (req, res, next) => {
-  // extra out to own file
-  const endPoints = {
-    endPoints: {
-      "/api": "GET",
-      "/api/categories": "GET",
-      "/api/reviews/:review_id ": ["GET", "PATCH"],
-      "/api/reviews": "GET",
-      "/api/reviews/:review_id/comments": ["GET", "POST"],
-      "/api/comments/:comment_id ": "DELETE",
-    },
-  };
+const endPoint = require("../endpoints.json");
 
-  res.status(200).send(endPoints);
+exports.welcomeMessage = (req, res, next) => {
+  res.status(200).send(endPoint);
 };

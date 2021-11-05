@@ -3,6 +3,7 @@ const testData = require("../db/data/test-data/index.js");
 const seed = require("../db/seeds/seed.js");
 const app = require("../app");
 const request = require("supertest");
+const endPoint = require("../endpoints.json");
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -18,21 +19,11 @@ describe("app tests", () => {
   });
   describe("GET /api", () => {
     test("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
-      const endPoints = {
-        endPoints: {
-          "/api": "GET",
-          "/api/categories": "GET",
-          "/api/reviews/:review_id ": ["GET", "PATCH"],
-          "/api/reviews": "GET",
-          "/api/reviews/:review_id/comments": ["GET", "POST"],
-          "/api/comments/:comment_id ": "DELETE",
-        },
-      };
       return request(app)
         .get("/api")
         .expect(200)
         .then(({ body }) => {
-          expect(body).toEqual(endPoints);
+          expect(body).toEqual(endPoint);
         });
     });
   });
@@ -444,7 +435,7 @@ describe("app tests", () => {
     });
   });
   describe("GET /api/users", () => {
-    test.only("status 200, responds with an array of user obejcts containing a username property", () => {
+    test("status 200, responds with an array of user obejcts containing a username property", () => {
       return request(app)
         .get("/api/users")
         .expect(200)
