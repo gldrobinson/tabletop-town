@@ -102,6 +102,25 @@ describe("app tests", () => {
           });
       });
     });
+    describe("/api/reviews/:review_id", () => {
+      test("POST - status 405", () => {
+        return request(app)
+          .post("/api/reviews/2")
+          .send({})
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+      test("DELETE - status 405", () => {
+        return request(app)
+          .delete("/api/reviews/2")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.message).toBe("method not allowed");
+          });
+      });
+    });
   });
   describe("GET /api", () => {
     test("status 200 for endpoint /api which responds with a JSON of available endpoints", () => {
