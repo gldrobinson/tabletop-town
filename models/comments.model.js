@@ -1,4 +1,5 @@
 const db = require("../db/connection.js");
+const reviews = require("../db/data/test-data/reviews.js");
 
 exports.deleteCommentById = (comment_id) => {
   const queryValues = [comment_id];
@@ -6,6 +7,7 @@ exports.deleteCommentById = (comment_id) => {
   DELETE FROM comments
   WHERE comment_id = $1
   RETURNING *;`;
+
   return db.query(query, queryValues).then(({ rows }) => {
     if (rows.length === 0) {
       return Promise.reject({ status: 404, message: "path not found" });
@@ -39,29 +41,29 @@ exports.addComment = (review_id, bodyParams) => {
 
 exports.selectComments = (review_id) => {
   const queryValues = [review_id];
-  const query = `
+  const commentsQuery = `
   SELECT * FROM comments
   WHERE review_id = $1`;
 
-  return db
-    .query(query, queryValues)
-    .then((result) => {
-      // check to see if review_id exists when rows = []
-      if (result.rows.length === 0) {
-        return db.query(
-          `SELECT * FROM reviews WHERE review_id = $1;`,
-          queryValues
-        );
+  const reviewQuery = `SELECT * FROM reviews WHERE review_id = $1;`;
+
+  const commentsPromise = db.query(commentsQuery, queryValues);
+  const reviewsPromise = db.query(reviewQuery, queryValues);
+  // check comments exist and review exists
+  return Promise.all([commentsPromise, reviewsPromise]).then(
+    ([comment, review]) => {
+      const commentRows = comment.rows;
+      const reviewRows = review.rows;
+
+      if (commentRows.length > 0) {
+        return commentRows;
       }
-      return result;
-    })
-    .then(({ rows }) => {
-      if (rows.length === 0) {
-        return Promise.reject({ status: 404, message: "path not found" });
-      } else if (rows[0].hasOwnProperty("review_body")) {
-        return [];
-      } else {
-        return rows;
+
+      if (reviewRows.length > 0) {
+        return commentRows;
       }
-    });
+
+      return Promise.reject({ status: 404, message: "path not found" });
+    }
+  );
 };
