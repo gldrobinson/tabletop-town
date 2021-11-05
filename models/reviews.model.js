@@ -2,7 +2,7 @@ const db = require("../db/connection");
 
 exports.selectReviewById = (review_id) => {
   const query = `
-    SELECT reviews.*, COUNT (comment_id) AS comments_count
+    SELECT reviews.*, COUNT (comment_id) AS comment_count
     FROM reviews
     LEFT JOIN comments
     ON reviews.review_id = comments.review_id
@@ -64,7 +64,7 @@ exports.selectReviews = (sort_by = "created_at", order = "desc", category) => {
     return Promise.reject({ status: 400, message: "bad request" });
   }
 
-  let queryStr = `SELECT reviews.*, COUNT (comment_id) AS comments_count
+  let queryStr = `SELECT reviews.*, COUNT (comment_id) AS comment_count
     FROM reviews
     LEFT JOIN comments
     ON reviews.review_id = comments.review_id`;

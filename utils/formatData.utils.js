@@ -29,12 +29,6 @@ exports.formatUserData = (arrayOfObjects) => {
 };
 
 exports.formatCommentData = (arrayOfObjects) => {
-  if (
-    arrayOfObjects.length === 0 ||
-    Object.keys(arrayOfObjects[0]).length === 0
-  ) {
-    return [[]];
-  }
   const values = arrayOfObjects.map((element) => {
     return [
       element.author,

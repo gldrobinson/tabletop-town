@@ -223,7 +223,7 @@ describe("app tests", () => {
             category: "dexterity",
             created_at: "2021-01-18T10:01:41.251Z",
             votes: 5,
-            comments_count: "3",
+            comment_count: "3",
           });
         });
     });
