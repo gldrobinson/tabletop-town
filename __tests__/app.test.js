@@ -333,7 +333,7 @@ describe("app tests", () => {
         });
     });
   });
-  describe("GET /api/reviews", () => {
+  describe.only("GET /api/reviews", () => {
     test("status: 200, responds with an array of review objects with default sort_by review_created_at and order dec ", () => {
       return request(app)
         .get("/api/reviews")
@@ -404,7 +404,7 @@ describe("app tests", () => {
     });
     test("status: 200, responds with an array of review objects that has an order query for ASC", () => {
       return request(app)
-        .get("/api/reviews?sort_by=review_id&&order=ASC")
+        .get("/api/reviews?order=asc")
         .expect(200)
         .then(({ body }) => {
           expect(body.reviews).toHaveLength(13);
@@ -413,7 +413,7 @@ describe("app tests", () => {
     });
     test("status: 200, responds with an array of review objects that has an order query for DESC", () => {
       return request(app)
-        .get("/api/reviews?sort_by=review_id&&order=DESC")
+        .get("/api/reviews?sort_by=review_id&&order=desc")
         .expect(200)
         .then(({ body }) => {
           expect(body.reviews).toHaveLength(13);

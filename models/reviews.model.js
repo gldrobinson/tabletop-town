@@ -45,7 +45,7 @@ exports.updateVotesOnReview = (review_id, bodyParams) => {
 
 exports.selectReviews = (
   sort_by = "review_created_at",
-  order = "DESC",
+  order = "desc",
   category
 ) => {
   const queryValues = [];
@@ -62,7 +62,7 @@ exports.selectReviews = (
     "review_created_at",
   ];
 
-  const validOrder = ["ASC", "DESC"];
+  const validOrder = ["asc", "desc"];
 
   if (!validSortBy.includes(sort_by) || !validOrder.includes(order)) {
     return Promise.reject({ status: 400, message: "bad request" });
@@ -91,7 +91,7 @@ exports.selectReviews = (
       const categoryRows = category.rows;
 
       if (reviewRows.length > 0) {
-        console.log(reviewRows);
+        // console.log(reviewRows);
         return reviewRows;
       }
       if (categoryRows.length > 0) {
