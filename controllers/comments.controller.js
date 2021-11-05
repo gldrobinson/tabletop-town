@@ -23,6 +23,7 @@ exports.postComment = (req, res, next) => {
     })
     .catch(next);
 };
+
 exports.getComments = (req, res, next) => {
   const { review_id } = req.params;
 
