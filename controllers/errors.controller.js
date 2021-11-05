@@ -9,14 +9,19 @@ exports.handleCustomerErrs = (err, req, res, next) => {
 
 exports.handlePsqlErrs = (err, req, res, next) => {
   const { code } = err;
+  const psqlErrorStatus = {
+    "22P02": 400,
+    23503: 404,
+  };
 
-  if (code === "22P02") {
-    res.status(400).send({ message: "bad request" });
-  } else if (code === "23503") {
-    res.status(404).send({ message: "not a path" });
-  } else {
-    next(err);
-  }
+  const psqlErrorMessage = {
+    400: "bad request",
+    404: "path not found",
+  };
+  const status = psqlErrorStatus[code];
+  const message = psqlErrorMessage[status];
+
+  res.status(status).send({ message });
 };
 
 exports.handles500error = (err, req, res, next) => {
