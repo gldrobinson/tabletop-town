@@ -10,12 +10,11 @@ const {
 const { commentRouter } = require("./comments.router.js");
 
 reviewRouter.route("/").get(getReviews).all(handleMethodNotAllowed);
-// reviewRouter
-//   .route("/:review_id")
-//   .get(getReviewById)
-//   .patch(patchReviewById)
-//   .all(handleMethodNotAllowed);
-
 reviewRouter.use("/:review_id/comments", commentRouter);
+reviewRouter
+  .route("/:review_id")
+  .get(getReviewById)
+  .patch(patchReviewById)
+  .all(handleMethodNotAllowed);
 
 module.exports = { reviewRouter };
