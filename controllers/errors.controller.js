@@ -26,7 +26,7 @@ exports.handlePsqlErrs = (err, req, res, next) => {
 
 exports.handles500error = (err, req, res, next) => {
   console.log(err);
-  res.status(500).send({ message: "Internal server error" });
+  res.status(500).send({ message: err });
 };
 
 exports.handleMethodNotAllowed = (req, res, next) => {
