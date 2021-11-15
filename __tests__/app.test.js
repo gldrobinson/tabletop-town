@@ -344,31 +344,6 @@ describe("app tests", () => {
         });
     });
   });
-  describe("DEBUGGING GET /api/reviews", () => {
-    test("status: 200, responds with an array of review objects with default sort_by review_created_at and order dec", () => {
-      return request(app)
-        .get("/api/reviews")
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.reviews).toHaveLength(13);
-          expect(body.reviews[0].review_id).toBe(7);
-          body.reviews.forEach((review) => {
-            expect.objectContaining({
-              review_id: expect.any(Number),
-              title: expect.any(String),
-              designer: expect.any(String),
-              owner: expect.any(String),
-              review_img_url: expect.any(String),
-              review_body: expect.any(String),
-              category: expect.any(String),
-              review_created_at: expect.any(String),
-              votes: expect.any(Number),
-              comment_count: expect.any(String),
-            });
-          });
-        });
-    });
-  });
   describe("GET /api/reviews", () => {
     test("status: 200, responds with an array of review objects with default sort_by review_created_at and order dec ", () => {
       return request(app)
@@ -495,7 +470,7 @@ describe("app tests", () => {
     test("status 201, responds with the posted comment object", () => {
       const comment = {
         username: "mallionaire",
-        body: "great game!",
+        comment_body: "great game!",
       };
       return request(app)
         .post("/api/reviews/1/comments")
@@ -504,7 +479,7 @@ describe("app tests", () => {
         .then(({ body }) => {
           expect(body.comment).toEqual({
             author: expect.any(String),
-            body: expect.any(String),
+            comment_body: expect.any(String),
             review_id: 1,
             comment_id: expect.any(Number),
             votes: 0,
@@ -515,7 +490,7 @@ describe("app tests", () => {
     test("status: 400, responds with error message bad request when passed an invalid path", () => {
       const comment = {
         username: "mallionaire",
-        body: "great game!",
+        comment_body: "great game!",
       };
       return request(app)
         .post("/api/reviews/not_valid_path/comments")
@@ -528,7 +503,7 @@ describe("app tests", () => {
     test("status: 404, responds with error message path not found when passed a path that doesn't exist", () => {
       const comment = {
         username: "mallionaire",
-        body: "great game!",
+        comment_body: "great game!",
       };
       return request(app)
         .post("/api/reviews/9999/comments")
@@ -541,7 +516,7 @@ describe("app tests", () => {
     test("status: 404, responds with error message path not found when passed a username in the body that does not exist", () => {
       const comment = {
         username: "not_a_username",
-        body: "Hello",
+        comment_body: "Hello",
       };
       return request(app)
         .post("/api/reviews/1/comments")
@@ -566,7 +541,7 @@ describe("app tests", () => {
     test("status: 400, responds with error message bad request when passed an object with more than the required properties", () => {
       const comment = {
         username: "mallionaire",
-        body: "hello",
+        comment_body: "hello",
         extra_property: "ignore",
       };
       return request(app)
@@ -620,25 +595,6 @@ describe("app tests", () => {
         });
     });
   });
-  describe.only("DEBUGING /api/reviews/:review_id/comments", () => {
-    test("testing for GET /api/comments", () => {
-      return request(app)
-        .get("/api/comments")
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.comments).toHaveLength(6);
-          body.comments.forEach((comment) => {
-            expect.objectContaining({
-              body: expect.any(String),
-              votes: expect.any(Number),
-              author: expect.any(String),
-              comment_created_at: expect.any(String),
-            });
-          });
-        });
-    });
-  });
-
   describe("DELETE /api/comments/:comment_id", () => {
     test("status 204 on successful deletion of comment with no content in response", () => {
       return request(app).delete("/api/comments/1").expect(204);

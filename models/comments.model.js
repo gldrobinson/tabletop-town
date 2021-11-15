@@ -1,5 +1,4 @@
 const db = require("../db/connection.js");
-const reviews = require("../db/data/test-data/reviews.js");
 
 exports.deleteCommentById = (comment_id) => {
   const queryValues = [comment_id];
@@ -17,21 +16,20 @@ exports.deleteCommentById = (comment_id) => {
 
 exports.addComment = (review_id, bodyParams) => {
   const bodyKeys = Object.keys(bodyParams);
-
   if (
     !bodyKeys.includes("username") ||
-    !bodyKeys.includes("body") ||
+    !bodyKeys.includes("comment_body") ||
     bodyKeys.length > 2
   ) {
     return Promise.reject({ status: 400, message: "bad request" });
   }
 
-  const { username, body } = bodyParams;
+  const { username, comment_body } = bodyParams;
 
-  const queryValues = [username, body, review_id];
+  const queryValues = [username, comment_body, review_id];
   const query = `
   INSERT INTO comments
-  (author, body, review_id)
+  (author, comment_body, review_id)
   VALUES
   ($1, $2, $3)
   RETURNING *;
@@ -68,10 +66,4 @@ exports.selectComments = (review_id) => {
       return Promise.reject({ status: 404, message: "path not found" });
     }
   );
-};
-
-exports.selectAllCommentsDebug = () => {
-  console.log("in model");
-  const query = `SELECT * FROM comments;`;
-  return db.query(query).then(({ rows }) => rows);
 };

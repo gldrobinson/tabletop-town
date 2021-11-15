@@ -16,8 +16,6 @@ commentRouter
 
 commentRouter.route("/").get(getComments).post(postComment);
 
-// commentRouter.route("/").get(getCommentsDebug);
-
 module.exports = {
   commentRouter,
 };
