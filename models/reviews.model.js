@@ -93,6 +93,7 @@ exports.selectReviews = (sort_by = "created_at", order = "desc", category) => {
       const categoryRows = category.rows;
 
       if (reviewRows.length > 0) {
+        console.log(reviewRows);
         return reviewRows;
       }
       if (categoryRows.length > 0) {
@@ -102,4 +103,9 @@ exports.selectReviews = (sort_by = "created_at", order = "desc", category) => {
       return Promise.reject({ status: 404, message: "path not found" });
     }
   );
+};
+
+exports.selectReviewsDebug = () => {
+  const query = `SELECT * FROM reviews;`;
+  return db.query(query).then(({ rows }) => rows);
 };

@@ -344,6 +344,30 @@ describe("app tests", () => {
         });
     });
   });
+  describe.only("DEBUGGING GET /api/reviews", () => {
+    test("status: 200, responds with an array of review objects", () => {
+      return request(app)
+        .get("/api/reviews")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reviews).toHaveLength(13);
+          body.reviews.forEach((review) => {
+            expect.objectContaining({
+              review_id: expect.any(Number),
+              title: expect.any(String),
+              designer: expect.any(String),
+              owner: expect.any(String),
+              review_img_url: expect.any(String),
+              review_body: expect.any(String),
+              category: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              comment_count: expect.any(String),
+            });
+          });
+        });
+    });
+  });
   describe("GET /api/reviews", () => {
     test("status: 200, responds with an array of review objects with default sort_by review_created_at and order dec ", () => {
       return request(app)
