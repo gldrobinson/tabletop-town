@@ -113,6 +113,6 @@ exports.selectReviewsDebug = (sort_by, order) => {
     order = "desc";
   }
 
-  const query = `SELECT * FROM reviews ORDER BY title desc;`;
+  const query = `SELECT * FROM reviews ORDER BY review_created_by desc;`;
   return db.query(query).then(({ rows }) => rows);
 };

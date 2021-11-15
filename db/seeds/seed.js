@@ -86,7 +86,7 @@ const insertDataIntoTables = async (
 
   //reviews table
   query = `INSERT INTO reviews
-  (title, review_body, designer, review_img_url, votes, category, owner, created_at)
+  (title, review_body, designer, review_img_url, votes, category, owner, review_created_at)
   VALUES 
   %L;`;
   await db.query(format(query, formatReviewData(reviewData)));
