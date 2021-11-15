@@ -14,9 +14,9 @@ commentRouter
   .delete(deleteComment)
   .all(handleMethodNotAllowed);
 
-//commentRouter.route("/").get(getComments).post(postComment);
+commentRouter.route("/").get(getComments).post(postComment);
 
-commentRouter.route("/").get(getCommentsDebug);
+// commentRouter.route("/").get(getCommentsDebug);
 
 module.exports = {
   commentRouter,
