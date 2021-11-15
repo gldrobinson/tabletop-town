@@ -105,7 +105,14 @@ exports.selectReviews = (sort_by = "created_at", order = "desc", category) => {
   );
 };
 
-exports.selectReviewsDebug = (sort_by = "created_at", order = "desc") => {
+exports.selectReviewsDebug = (sort_by, order) => {
+  if (!sort_by) {
+    sort_by = "created_at";
+  }
+  if (!order) {
+    order = "desc";
+  }
+
   const query = `SELECT * FROM reviews ORDER BY ${sort_by} ${order};`;
   return db.query(query).then(({ rows }) => rows);
 };
