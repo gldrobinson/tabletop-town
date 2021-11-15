@@ -71,20 +71,43 @@
   "GET /api/reviews/:review_id/comments": {
     "description": "responds with an array of comments for the given review_id",
     "queries": [],
-    "exampleBody" : {"inc_votes" : 1},
     "exampleResponse": {
-      "review": {
-        "review_id": 1,
-        "title": "Culture a Love of Agriculture With Agricola",
-        "review_body": "You could sum up Agricola with the simple phrase 'Farmyeard Fun' but the mechanics and game play add so much more than that. You'll find yourself torn between breeding pigs, or sowing crops. Its joyeous and rewarding and it makes you think of time spent outside, which is much harder to do these days!",
-        "designer": "Uwe Rosenberg",
-        "review_image_url": "https://images.pexels.com/photos/4917821/pexels-photo-4917821.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        "votes": 1,
-        "category": "strategy",
-        "owner": "tickle122",
-        "review_created_at": "2021-01-18T10:00:20.514Z",
-        "comment_count": "4"
-      }
+      "comments": [
+        {
+          "review_id": 1,
+          "title": "Culture a Love of Agriculture With Agricola",
+          "review_body": "You could sum up Agricola with the simple phrase 'Farmyeard Fun' but the mechanics and game play add so much more than that. You'll find yourself torn between breeding pigs, or sowing crops. Its joyeous and rewarding and it makes you think of time spent outside, which is much harder to do these days!",
+          "designer": "Uwe Rosenberg",
+          "review_image_url": "https://images.pexels.com/photos/4917821/pexels-photo-4917821.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+          "votes": 1,
+          "category": "strategy",
+          "owner": "tickle122",
+          "review_created_at": "2021-01-18T10:00:20.514Z",
+          "comment_count": "4"
+        }
+      ]
+    }
+  },
+  "POST /api/reviews/:review_id/comments": {
+    "description": "the request body accepts an object in the form {username: name, comment_body: body } and responds with the posted comment object. The user must already have a username set up.",
+    "queries": [],
+    "exampleBody" : {"username": "tickle122", "comment_body" : "Great game!"},
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_body": "Great game!",
+          "votes": 0,
+          "author": "tickle122",
+          "review_id": 3,
+          "comment_created_at": "2021-01-18T10:00:20.514Z",
+        }
+      ]
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes the comment for the given comment_id. Responds with a status 204 and no content,",
+    "queries": [],
+    "exampleResponse": {
     }
   }
 }
