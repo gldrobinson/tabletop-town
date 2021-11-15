@@ -49,7 +49,11 @@ exports.updateVotesOnReview = (review_id, bodyParams) => {
   });
 };
 
-exports.selectReviews = (sort_by = "created_at", order = "desc", category) => {
+exports.selectReviews = (
+  sort_by = "review_created_at",
+  order = "desc",
+  category
+) => {
   const queryValues = [];
 
   const validSortBy = [
