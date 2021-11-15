@@ -345,12 +345,13 @@ describe("app tests", () => {
     });
   });
   describe.only("DEBUGGING GET /api/reviews", () => {
-    test("status: 200, responds with an array of review objects", () => {
+    test("status: 200, responds with an array of review objects with default sort_by review_created_at and order dec", () => {
       return request(app)
         .get("/api/reviews")
         .expect(200)
         .then(({ body }) => {
           expect(body.reviews).toHaveLength(13);
+          expect(body.reviews[0].review_id).toBe(7);
           body.reviews.forEach((review) => {
             expect.objectContaining({
               review_id: expect.any(Number),
