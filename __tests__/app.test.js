@@ -508,7 +508,7 @@ describe("app tests", () => {
             review_id: 1,
             comment_id: expect.any(Number),
             votes: 0,
-            created_at: expect.any(String),
+            comment_created_at: expect.any(String),
           });
         });
     });
