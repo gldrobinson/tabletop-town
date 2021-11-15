@@ -51,7 +51,7 @@ const createTables = async () => {
     votes INTEGER DEFAULT 0,
     category VARCHAR(40) NOT NULL REFERENCES categories(slug),
     owner VARCHAR(40) NOT NULL REFERENCES users(username),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    review_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );`;
   await db.query(query);
   // comments table
