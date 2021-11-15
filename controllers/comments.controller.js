@@ -2,6 +2,7 @@ const {
   deleteCommentById,
   addComment,
   selectComments,
+  selectAllCommentsDebug,
 } = require("../models/comments.model.js");
 
 exports.deleteComment = (req, res, next) => {
@@ -34,4 +35,10 @@ exports.getComments = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.getCommentsDebug = (req, res, next) => {
+  selectAllCommentsDebug().then((comments) => {
+    res.status(200).send({ comments });
+  });
 };

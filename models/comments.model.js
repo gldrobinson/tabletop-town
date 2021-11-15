@@ -69,3 +69,9 @@ exports.selectComments = (review_id) => {
     }
   );
 };
+
+exports.selectAllCommentsDebug = () => {
+  console.log("in model");
+  const query = `SELECT * FROM comments;`;
+  return db.query(query).then(({ rows }) => rows);
+};

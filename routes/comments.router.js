@@ -3,6 +3,7 @@ const {
   deleteComment,
   getComments,
   postComment,
+  getCommentsDebug,
 } = require("../controllers/comments.controller.js");
 const {
   handleMethodNotAllowed,
@@ -13,6 +14,10 @@ commentRouter
   .delete(deleteComment)
   .all(handleMethodNotAllowed);
 
-commentRouter.route("/").get(getComments).post(postComment);
+//commentRouter.route("/").get(getComments).post(postComment);
 
-module.exports = { commentRouter };
+commentRouter.route("/").get(getCommentsDebug);
+
+module.exports = {
+  commentRouter,
+};

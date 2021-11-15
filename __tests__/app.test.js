@@ -620,6 +620,25 @@ describe("app tests", () => {
         });
     });
   });
+  describe.only("DEBUGING /api/reviews/:review_id/comments", () => {
+    test("testing for GET /api/comments", () => {
+      return request(app)
+        .get("/api/comments")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comments).toHaveLength(6);
+          body.comments.forEach((comment) => {
+            expect.objectContaining({
+              body: expect.any(String),
+              votes: expect.any(Number),
+              author: expect.any(String),
+              comment_created_at: expect.any(String),
+            });
+          });
+        });
+    });
+  });
+
   describe("DELETE /api/comments/:comment_id", () => {
     test("status 204 on successful deletion of comment with no content in response", () => {
       return request(app).delete("/api/comments/1").expect(204);
