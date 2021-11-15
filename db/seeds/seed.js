@@ -61,7 +61,7 @@ const createTables = async () => {
     review_id INTEGER REFERENCES reviews(review_id) ON DELETE CASCADE,
     votes INTEGER DEFAULT 0,
     comment_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    body TEXT NOT NULL
+    comment_body TEXT NOT NULL
   );`;
   await db.query(query);
 };
@@ -93,7 +93,7 @@ const insertDataIntoTables = async (
 
   // comments table
   query = `INSERT INTO comments
-  (author, review_id, votes, comment_created_at, body)
+  (author, review_id, votes, comment_created_at, comment_body)
   VALUES 
   %L;`;
   await db.query(format(query, formatCommentData(commentData)));
