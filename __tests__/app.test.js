@@ -645,7 +645,7 @@ describe("app tests", () => {
         });
     });
   });
-  describe.only("PATCH /api/comments/:comment_id", () => {
+  describe("PATCH /api/comments/:comment_id", () => {
     test("status: 200, responds with the updated comment object when the vote increases", () => {
       const input = { inc_votes: 1 };
       return request(app)
