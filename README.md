@@ -1,6 +1,6 @@
 # Tabletop Town
 
-Welcome to Tabletop town. This is a server that allows users to interact with a range of different board games of different categories and users are encouraged to engage with reviews and comments for all the games by adding votes and posting comments.
+Welcome to Tabletop town. This is a server that allows users to interact with a range of different board games for different categories and users are encouraged to engage with reviews and comments for all the games by adding votes and posting comments.
 
 It is hosted on heroku here: https://tabletop-town.herokuapp.com
 
@@ -31,13 +31,13 @@ Available endpoints are listed here: https://tabletop-town.herokuapp.com/api/
   - Add “PGDATABASE=nc_games” to `.env.development`
   - If using linux, add “PGPASSWORD" to both files
 
-- Run the `setup-dbs` script:
+- Run the `setup-dbs` script to set up the local databases:
 
   ```sh
     npm run setup-dbs
   ```
 
-- Run the `seed` script:
+- Run the `seed` script to seed the local databases:
   ```sh
     npm run seed
   ```
