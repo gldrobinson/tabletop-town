@@ -617,7 +617,7 @@ describe("app tests", () => {
     });
   });
   describe("GET /api/users", () => {
-    test("status 200, responds with an array of user obejcts containing a username property", () => {
+    test("status 200, responds with an array of user objects containing a username property", () => {
       return request(app)
         .get("/api/users")
         .expect(200)
@@ -627,6 +627,21 @@ describe("app tests", () => {
             expect.objectContaining({
               username: expect.any(String),
             });
+          });
+        });
+    });
+  });
+  describe.only("GET /api/users/:username", () => {
+    test("status: 200, responds with a user object for the given username", () => {
+      return request(app)
+        .get("/api/users/mallionaire")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.user).toEqual({
+            username: "mallionaire",
+            name: "haz",
+            avatar_url:
+              "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
           });
         });
     });
