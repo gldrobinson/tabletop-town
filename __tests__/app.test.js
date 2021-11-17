@@ -698,5 +698,14 @@ describe("app tests", () => {
           expect(body.message).toBe("bad request");
         });
     });
+    test("status: 400, responds with error message bad request when input body is invalid", () => {
+      return request(app)
+        .patch("/api/comments/2")
+        .send({ inc_votes: "cat" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
   });
 });
