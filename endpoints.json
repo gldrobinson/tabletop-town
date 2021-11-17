@@ -105,8 +105,48 @@
     }
   },
   "DELETE /api/comments/:comment_id": {
-    "description": "deletes the comment for the given comment_id. Responds with a status 204 and no content,",
+    "description": "deletes the comment for the given comment_id. Responds with a status 204 and no content",
     "queries": [],
     "exampleResponse": {}
+  },
+
+  "GET /api/users": {
+    "description": "responds with an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "mallionaire",
+            "name": "haz",
+            "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
+        }
+      ]
+    }
+  },
+  "GET /api/users/:username": {
+    "description": "responds with a user object for the given username",
+    "queries": [],
+    "exampleResponse": {
+      "user": {
+        "username": "mallionaire",
+          "name": "haz",
+          "avatar_url": "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg"
+      }
+    }
+  },
+  "PATCH /api/comments/:comment_id": {
+    "description": "the request body accepts an object in the form {inc_votes: newVote } where newVote is a number indicating how much the votes property should be updated by and responds with the updated comment object",
+    "queries": [],
+    "exampleBody" : {"inc_votes" : 1},
+    "exampleResponse": {
+      "review": {
+        "comment_body": "My dog loved this game too!",
+        "votes": 14,
+        "author": "mallionaire",
+        "review_id": 3,
+        "comment_created_at": "2021-01-18T10:09:05.410Z",
+        "comment_id": 2
+      }
+    }
   }
 }
