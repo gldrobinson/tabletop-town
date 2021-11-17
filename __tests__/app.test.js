@@ -680,5 +680,14 @@ describe("app tests", () => {
           });
         });
     });
+    test("status: 404, responds with error message path not found when path is out of range", () => {
+      return request(app)
+        .patch("/api/comments/9999")
+        .send({ inc_votes: 3 })
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.message).toBe("path not found");
+        });
+    });
   });
 });
