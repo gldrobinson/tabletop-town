@@ -68,15 +68,16 @@ exports.selectComments = (review_id) => {
   );
 };
 
-exports.updateVotesOnComment = (comment_id) => {
+exports.updateVotesOnComment = (comment_id, inc_votes) => {
+  const queryValues = [inc_votes, comment_id];
   const query = `
   UPDATE comments
   SET
-  votes = votes + 1
-  WHERE comment_id = $1
+  votes = votes + $1
+  WHERE comment_id = $2
   RETURNING *;
   `;
-  return db.query(query, [comment_id]).then(({ rows }) => {
+  return db.query(query, queryValues).then(({ rows }) => {
     return rows[0];
   });
 };

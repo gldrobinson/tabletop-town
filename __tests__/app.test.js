@@ -645,7 +645,7 @@ describe("app tests", () => {
         });
     });
   });
-  describe("PATCH /api/comments/:comment_id", () => {
+  describe.only("PATCH /api/comments/:comment_id", () => {
     test("status: 200, responds with the updated comment object when the vote increases", () => {
       const input = { inc_votes: 1 };
       return request(app)
@@ -656,6 +656,23 @@ describe("app tests", () => {
           expect(body.comment).toEqual({
             comment_body: "My dog loved this game too!",
             votes: 14,
+            author: "mallionaire",
+            review_id: 3,
+            comment_created_at: "2021-01-18T10:09:05.410Z",
+            comment_id: 2,
+          });
+        });
+    });
+    test("status: 200, responds with the updated comment object when the vote decreases", () => {
+      const input = { inc_votes: -1 };
+      return request(app)
+        .patch("/api/comments/2")
+        .send(input)
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comment).toEqual({
+            comment_body: "My dog loved this game too!",
+            votes: 12,
             author: "mallionaire",
             review_id: 3,
             comment_created_at: "2021-01-18T10:09:05.410Z",
