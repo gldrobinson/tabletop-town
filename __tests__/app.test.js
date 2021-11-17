@@ -226,7 +226,7 @@ describe("app tests", () => {
           expect(body.message).toBe("path not found");
         });
     });
-    test("status: 400, responds with error message bad requet", () => {
+    test("status: 400, responds with error message bad request", () => {
       return request(app)
         .get("/api/reviews/not_a_path")
         .expect(400)
