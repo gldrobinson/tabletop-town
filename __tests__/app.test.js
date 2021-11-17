@@ -723,5 +723,14 @@ describe("app tests", () => {
           });
         });
     });
+    test("status: 400, responds with error message bad request when there are more than the required properties on the body", () => {
+      return request(app)
+        .patch("/api/comments/2")
+        .send({ inc_votes: 1, not_a_property: 3 })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
   });
 });

@@ -68,11 +68,18 @@ exports.selectComments = (review_id) => {
   );
 };
 
-exports.updateVotesOnComment = (comment_id, inc_votes) => {
+exports.updateVotesOnComment = (comment_id, bodyParams) => {
+  const { inc_votes } = bodyParams;
+
   if (!inc_votes) {
     // return unchanged comment
     const query = "SELECT * FROM comments WHERE comment_id = $1";
     return db.query(query, [comment_id]).then(({ rows }) => rows[0]);
+  }
+
+  if (Object.keys(bodyParams).length > 1) {
+    // check if extra properties were passed on body
+    return Promise.reject({ status: 400, message: "bad request" });
   }
 
   const queryValues = [inc_votes, comment_id];

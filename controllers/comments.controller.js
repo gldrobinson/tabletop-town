@@ -39,8 +39,8 @@ exports.getComments = (req, res, next) => {
 
 exports.patchCommentById = (req, res, next) => {
   const { comment_id } = req.params;
-  const { inc_votes } = req.body;
-  updateVotesOnComment(comment_id, inc_votes)
+  const bodyParams = req.body;
+  updateVotesOnComment(comment_id, bodyParams)
     .then((comment) => {
       res.status(200).send({ comment });
     })
