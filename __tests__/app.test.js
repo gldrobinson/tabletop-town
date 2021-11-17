@@ -689,5 +689,14 @@ describe("app tests", () => {
           expect(body.message).toBe("path not found");
         });
     });
+    test("status: 400, responds with error message bad request when input path is invalid", () => {
+      return request(app)
+        .patch("/api/comments/not_a_path")
+        .send({ inc_votes: 3 })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe("bad request");
+        });
+    });
   });
 });
