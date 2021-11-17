@@ -631,7 +631,7 @@ describe("app tests", () => {
         });
     });
   });
-  describe.only("GET /api/users/:username", () => {
+  describe("GET /api/users/:username", () => {
     test("status: 200, responds with a user object for the given username", () => {
       return request(app)
         .get("/api/users/mallionaire")
@@ -643,6 +643,14 @@ describe("app tests", () => {
             avatar_url:
               "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
           });
+        });
+    });
+    test("status:400, responds with error message path not found when passed a username that is out of bounds ", () => {
+      return request(app)
+        .get("/api/users/no_username_found")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.message).toBe("path not found");
         });
     });
   });
