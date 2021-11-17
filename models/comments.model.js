@@ -69,6 +69,12 @@ exports.selectComments = (review_id) => {
 };
 
 exports.updateVotesOnComment = (comment_id, inc_votes) => {
+  if (!inc_votes) {
+    // return unchanged comment
+    const query = "SELECT * FROM comments WHERE comment_id = $1";
+    return db.query(query, [comment_id]).then(({ rows }) => rows[0]);
+  }
+
   const queryValues = [inc_votes, comment_id];
   const query = `
   UPDATE comments

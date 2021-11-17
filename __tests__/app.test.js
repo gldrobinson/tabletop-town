@@ -707,5 +707,21 @@ describe("app tests", () => {
           expect(body.message).toBe("bad request");
         });
     });
+    test("status: 200, responds with unchanged comment object to user when no body was included", () => {
+      return request(app)
+        .patch("/api/comments/2")
+        .send({})
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comment).toEqual({
+            comment_body: "My dog loved this game too!",
+            votes: 13,
+            author: "mallionaire",
+            review_id: 3,
+            comment_created_at: "2021-01-18T10:09:05.410Z",
+            comment_id: 2,
+          });
+        });
+    });
   });
 });
