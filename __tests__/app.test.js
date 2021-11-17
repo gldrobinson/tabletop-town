@@ -131,15 +131,6 @@ describe("app tests", () => {
             expect(body.message).toBe("method not allowed");
           });
       });
-      test("PATCH - status 405", () => {
-        return request(app)
-          .patch("/api/comments/2")
-          .send({})
-          .expect(405)
-          .then(({ body }) => {
-            expect(body.message).toBe("method not allowed");
-          });
-      });
       test("GET - status 405", () => {
         return request(app)
           .get("/api/comments/2")
@@ -651,6 +642,25 @@ describe("app tests", () => {
         .expect(404)
         .then(({ body }) => {
           expect(body.message).toBe("path not found");
+        });
+    });
+  });
+  describe("PATCH /api/comments/:comment_id", () => {
+    test("status: 200, responds with the updated comment object when the vote increases", () => {
+      const input = { inc_votes: 1 };
+      return request(app)
+        .patch("/api/comments/2")
+        .send(input)
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comment).toEqual({
+            comment_body: "My dog loved this game too!",
+            votes: 14,
+            author: "mallionaire",
+            review_id: 3,
+            comment_created_at: "2021-01-18T10:09:05.410Z",
+            comment_id: 2,
+          });
         });
     });
   });

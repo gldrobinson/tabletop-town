@@ -3,7 +3,7 @@ const {
   deleteComment,
   getComments,
   postComment,
-  getCommentsDebug,
+  patchCommentById,
 } = require("../controllers/comments.controller.js");
 const {
   handleMethodNotAllowed,
@@ -11,6 +11,7 @@ const {
 
 commentRouter
   .route("/:comment_id")
+  .patch(patchCommentById)
   .delete(deleteComment)
   .all(handleMethodNotAllowed);
 
