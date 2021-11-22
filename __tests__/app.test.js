@@ -209,7 +209,7 @@ describe("app tests", () => {
             review_id: 2,
             review_body: "Fiddly fun for all the family",
             designer: "Leslie Scott",
-            review_img_url:
+            review_image_url:
               "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
             category: "dexterity",
             review_created_at: "2021-01-18T10:01:41.251Z",
@@ -249,7 +249,7 @@ describe("app tests", () => {
             review_id: 2,
             review_body: "Fiddly fun for all the family",
             designer: "Leslie Scott",
-            review_img_url:
+            review_image_url:
               "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
             category: "dexterity",
             review_created_at: "2021-01-18T10:01:41.251Z",
@@ -270,7 +270,7 @@ describe("app tests", () => {
             review_id: 2,
             review_body: "Fiddly fun for all the family",
             designer: "Leslie Scott",
-            review_img_url:
+            review_image_url:
               "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
             category: "dexterity",
             review_created_at: "2021-01-18T10:01:41.251Z",
@@ -317,7 +317,7 @@ describe("app tests", () => {
             review_id: 2,
             review_body: "Fiddly fun for all the family",
             designer: "Leslie Scott",
-            review_img_url:
+            review_image_url:
               "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
             category: "dexterity",
             review_created_at: "2021-01-18T10:01:41.251Z",
@@ -349,7 +349,7 @@ describe("app tests", () => {
               title: expect.any(String),
               designer: expect.any(String),
               owner: expect.any(String),
-              review_img_url: expect.any(String),
+              review_image_url: expect.any(String),
               category: expect.any(String),
               review_created_at: expect.any(String),
               votes: expect.any(Number),

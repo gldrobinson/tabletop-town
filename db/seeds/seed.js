@@ -47,7 +47,7 @@ const createTables = async () => {
     title VARCHAR(100) NOT NULL,
     review_body TEXT NOT NULL,
     designer VARCHAR(100) NOT NULL,
-    review_img_url TEXT DEFAULT 'https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg',
+    review_image_url TEXT DEFAULT 'https://images.pexels.com/photos/163064/play-stone-network-networked-interactive-163064.jpeg',
     votes INTEGER DEFAULT 0,
     category VARCHAR(40) NOT NULL REFERENCES categories(slug),
     owner VARCHAR(40) NOT NULL REFERENCES users(username),
@@ -86,7 +86,7 @@ const insertDataIntoTables = async (
 
   //reviews table
   query = `INSERT INTO reviews
-  (title, review_body, designer, review_img_url, votes, category, owner, review_created_at)
+  (title, review_body, designer, review_image_url, votes, category, owner, review_created_at)
   VALUES 
   %L;`;
   await db.query(format(query, formatReviewData(reviewData)));
