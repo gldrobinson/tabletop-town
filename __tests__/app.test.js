@@ -350,7 +350,6 @@ describe("app tests", () => {
               designer: expect.any(String),
               owner: expect.any(String),
               review_img_url: expect.any(String),
-              review_body: expect.any(String),
               category: expect.any(String),
               review_created_at: expect.any(String),
               votes: expect.any(Number),
