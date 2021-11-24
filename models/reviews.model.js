@@ -74,7 +74,7 @@ exports.selectReviews = (
     return Promise.reject({ status: 400, message: "bad request" });
   }
 
-  let queryStr = `SELECT reviews.title, reviews.review_id, reviews.designer, reviews.review_image_url, reviews.votes, reviews.owner, reviews.review_created_at, COUNT (comment_id) AS comment_count
+  let queryStr = `SELECT reviews.title, reviews.review_id, reviews.designer, reviews.review_image_url, reviews.votes, reviews.owner, reviews.review_created_at, reviews.category, COUNT (comment_id) AS comment_count
     FROM reviews
     LEFT JOIN comments
     ON reviews.review_id = comments.review_id`;
