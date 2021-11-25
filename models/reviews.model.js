@@ -66,6 +66,7 @@ exports.selectReviews = (
     "category",
     "owner",
     "review_created_at",
+    "comment_count",
   ];
 
   const validOrder = ["asc", "desc"];
